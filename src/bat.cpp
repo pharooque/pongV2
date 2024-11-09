@@ -1,14 +1,20 @@
 #include "bat.hpp"
 
-Bat::Bat(sf::Vector2f startPosition, sf::Texture texture)
+Bat::Bat(sf::Vector2f startPosition, const sf::Texture& texture)
+    : m_moveUp(false), m_moveDown(false)
 {
     sprite.setTexture (texture);
     sprite.setPosition(startPosition);
 }
 
-sf::FloatRect Bat::getPosition()
+sf::FloatRect Bat::getPosition() const
 {
     return sprite.getGlobalBounds();
+}
+
+const sf::Sprite& Bat::getSprite() const
+{
+    return sprite;
 }
 
 void Bat::moveUp()

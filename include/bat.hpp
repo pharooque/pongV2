@@ -5,16 +5,16 @@ class Bat
 {
 private:
     sf::Sprite sprite;
-    bool m_moveUp = false;
-    bool m_moveDown = false;
+    bool m_moveUp;
+    bool m_moveDown;
 public:
-    Bat(sf::Vector2f startPosition, sf::Texture texture);
+    Bat(sf::Vector2f startPosition, const sf::Texture& texture);
     
-    sf::FloatRect getPosition();
+    sf::FloatRect getPosition() const;
+    const sf::Sprite& getSprite() const;
 
     void moveUp();
     void moveDown();
-
     void stop();
 
     void updateTime(sf::Time deltaClock, float batSpeed);
