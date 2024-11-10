@@ -15,7 +15,8 @@ public:
 
     void moveUp();
     void moveDown();
-    void stop();
+    void stopUp();
+    void stopDown();
 
     void updateTime(sf::Time deltaClock, float batSpeed);
 };

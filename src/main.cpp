@@ -1,6 +1,7 @@
 #include"bat.hpp"
 #include<SFML/Graphics.hpp>
 #include<sstream>
+#include<random>
 #include<array>
 
 const int SCREEN_HEIGHT = 1300;
@@ -26,7 +27,7 @@ int main(int argc, char const *argv[])
 
     // Setup sprites
     sf::Sprite background(textures[0]), wall(textures[2]);
-    Bat bat(sf::Vector2f(SCREEN_WIDTH - 2100, 492), textures[1]);
+    Bat playerBat(sf::Vector2f(SCREEN_WIDTH - 2100, 492), textures[1]);
 
     // Positioning wall, goal and borders
     wall.setPosition(1082.5f, .0f); 
@@ -48,6 +49,13 @@ int main(int argc, char const *argv[])
     int playerScore = 0;
     int aiScore = 0;
 
+    // Setuo random number generator
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<> batSpeedDist(800, 1000);
+    float batSpeed = batSpeedDist(gen);
+
+
     // Time object
     sf::Clock clock;
 
@@ -64,16 +72,32 @@ int main(int argc, char const *argv[])
         }
 
         // Handle input
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+        {
+            playerBat.moveUp();
+        }
+        else {playerBat.stopUp();}
 
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+        {
+            playerBat.moveDown();
+        }
+        else {playerBat.stopDown();}
+
+        // Update time
+        sf::Time deltaClock = clock.restart();
+        playerBat.updateTime(deltaClock, batSpeed);
+
+        // Prompt score display
         std::stringstream ss;
-        ss << playerScore << "  " << aiScore;
+        ss << playerScore;
         scoreBoard.setString(ss.str());
 
         window.clear();
         window.draw(background);
         window.draw(scoreBoard);
         window.draw(wall);
-        window.draw(bat.getSprite());
+        window.draw(playerBat.getSprite());
         
         window.display();
     }

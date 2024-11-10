@@ -27,22 +27,40 @@ void Bat::moveDown()
     m_moveDown = true;
 }
 
-void Bat::stop()
+void Bat::stopUp()
 {
     m_moveUp = false;
+}
+
+void Bat::stopDown()
+{
     m_moveDown = false;
 }
 
 void Bat::updateTime(sf::Time deltaClock, float batSpeed)
 {
+    float batTop = sprite.getPosition().y;
+    float batBottom = batTop + sprite.getLocalBounds().height;
+    
     if (m_moveUp)
     {
         sprite.move(0, -batSpeed * deltaClock.asSeconds());
+
+        if (batTop < 0)
+        {
+            sprite.setPosition(sprite.getPosition().x, 0);
+            m_moveUp = false;
+        } 
     }
     
     if (m_moveDown)
     {
         sprite.move(0, batSpeed * deltaClock.asSeconds());
-    }
-    
+
+        if (batBottom > 1300)
+        {
+            sprite.setPosition(sprite.getPosition().x, 1300 - sprite.getGlobalBounds().height);
+            m_moveDown = false;
+        }
+    } 
 }
