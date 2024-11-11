@@ -31,7 +31,8 @@ int main(int argc, char const *argv[])
     std::array<sf::Sprite, 2> borders; for (auto& border : borders) {border.setTexture(textures[2]);}
     std::array<sf::Sprite, 2> goals; for(auto& goal : goals) {goal.setTexture(textures[3]);}
 
-    Bat playerBat(sf::Vector2f(SCREEN_WIDTH - 2100, 492), textures[1]); // Player bat
+    Bat playerBat(sf::Vector2f(SCREEN_WIDTH - 2100, 492), textures[1]); // Player paddle
+    Bat aiBat(sf::Vector2f(SCREEN_WIDTH - 154, 492), textures[1]); // AI controlled paddle
 
     // Positioning wall, goal and borders
     wall.setPosition(1082.5, 0);
@@ -79,20 +80,20 @@ int main(int argc, char const *argv[])
             } 
         }
 
-        // Handle input
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+        // Handle player input
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
         {
             playerBat.moveUp();
         }
         else {playerBat.stopUp();}
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
         {
             playerBat.moveDown();
         }
         else {playerBat.stopDown();}
 
-        // Update time
+        // Update time and sprite movement
         sf::Time deltaClock = clock.restart();
         playerBat.updateTime(deltaClock, batSpeed);
 
@@ -105,7 +106,10 @@ int main(int argc, char const *argv[])
         window.draw(background);
         window.draw(scoreBoard);
         window.draw(wall);
+        for (const auto& border : borders) {window.draw(border);}
+        for (const auto& goal : goals) {window.draw(goal);}
         window.draw(playerBat.getSprite());
+        window.draw(aiBat.getSprite());
         
         window.display();
     }

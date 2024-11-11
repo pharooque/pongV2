@@ -12,6 +12,7 @@ sf::FloatRect Bat::getPosition() const
     return sprite.getGlobalBounds();
 }
 
+// Getter function for rendering bat
 const sf::Sprite& Bat::getSprite() const
 {
     return sprite;
