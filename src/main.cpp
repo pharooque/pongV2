@@ -1,9 +1,10 @@
 #include"bat.hpp"
 #include<SFML/Graphics.hpp>
-#include<sstream>
-#include<random>
+#include<sstream>   // Score board concatenation
+#include<random>    // For random numbers
 #include<array>
 
+// Screen size constants
 const int SCREEN_HEIGHT = 1300;
 const int SCREEN_WIDTH = 2200;
 
@@ -11,10 +12,10 @@ int main(int argc, char const *argv[])
 {
     sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Pong", sf::Style::Fullscreen);
 
-    // Setup textures
-    std::array<sf::Texture, 3> textures;
-    const char* textureFiles[]{"../assets/sprites/background.png", /*"../assets/sprites/ball.png",*/ "../assets/sprites/bat.png",/*,
-                               "../assets/sprites/border.png", "../assets/sprites/goal.png"*/ "../assets/sprites/wall.png"};
+    // Loading up textures at once at the start
+    std::array<sf::Texture, 5> textures;
+    const char* textureFiles[]{"../assets/sprites/background.png", /*"../assets/sprites/ball.png",*/ "../assets/sprites/bat.png",
+                               "../assets/sprites/border.png", "../assets/sprites/goal.png", "../assets/sprites/wall.png"};
 
     for (int i = 0; i < textures.size(); ++i)
     {
@@ -26,11 +27,18 @@ int main(int argc, char const *argv[])
     }
 
     // Setup sprites
-    sf::Sprite background(textures[0]), wall(textures[2]);
-    Bat playerBat(sf::Vector2f(SCREEN_WIDTH - 2100, 492), textures[1]);
+    sf::Sprite background(textures[0]), wall(textures[4]);
+    std::array<sf::Sprite, 2> borders; for (auto& border : borders) {border.setTexture(textures[2]);}
+    std::array<sf::Sprite, 2> goals; for(auto& goal : goals) {goal.setTexture(textures[3]);}
+
+    Bat playerBat(sf::Vector2f(SCREEN_WIDTH - 2100, 492), textures[1]); // Player bat
 
     // Positioning wall, goal and borders
-    wall.setPosition(1082.5f, .0f); 
+    wall.setPosition(1082.5, 0);
+    borders[0].setPosition(12, 0);
+    borders[1].setPosition(12, SCREEN_HEIGHT - 12);
+    goals[0].setPosition(0, 0);
+    goals[1].setPosition(SCREEN_WIDTH - 36, 0);
 
     // Setup score board
     sf::Font font;
@@ -49,7 +57,7 @@ int main(int argc, char const *argv[])
     int playerScore = 0;
     int aiScore = 0;
 
-    // Setuo random number generator
+    // Setup random number generator
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> batSpeedDist(800, 1000);
