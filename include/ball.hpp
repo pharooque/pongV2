@@ -19,6 +19,7 @@ public:
 
     void reboundVerticalSides();
     void reboundHorizontalSides();
+    void verticalOffset(float offset);
     void updateTime(sf::Time deltaClock);
     void resetBall();
 };

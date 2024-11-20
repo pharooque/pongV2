@@ -1,7 +1,7 @@
 #include "bat.hpp"
 
 Bat::Bat(sf::Vector2f startPosition, const sf::Texture& texture)
-    : m_moveUp(false), m_moveDown(false), m_Speed(1000.0f)
+    : m_moveUp(false), m_moveDown(false), m_Speed(300.0f)
 {
     sprite.setTexture (texture);
     sprite.setPosition(startPosition);

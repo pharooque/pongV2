@@ -31,6 +31,16 @@ void Ball::reboundHorizontalSides()
     directionX = -directionX;
 }
 
+void Ball::verticalOffset(float offset)
+{
+    // Normalize the offset to avoid extreme values (e.g., divide by paddle height)
+    float normal = offset / 158; // 158.0f is half the paddle height
+
+    // Ensure the directionY stays within reasonable bounds
+    if (directionY > 1.0f) directionY = 1.0f;
+    else if (directionY < -1.0f) directionY = -1.0f;
+}
+
 void Ball::updateTime(sf::Time deltaClock)
 {
     sprite.move(directionX * ballSpeed * deltaClock.asSeconds(), directionY * ballSpeed * deltaClock.asSeconds());

@@ -7,6 +7,7 @@
 // Screen size constants
 const int SCREEN_HEIGHT = 1300;
 const int SCREEN_WIDTH = 2200;
+constexpr float aiBatDelay = 0.05f; // Reaction speed to make AI beatable
 
 int main(int argc, char const *argv[])
 {
@@ -52,13 +53,12 @@ int main(int argc, char const *argv[])
 
     sf::Text scoreBoard;
     scoreBoard.setFont(font);
-    scoreBoard.setCharacterSize(100);
+    scoreBoard.setCharacterSize(250);
     scoreBoard.setFillColor(sf::Color::White);
-    scoreBoard.setPosition(1030, 15);
+    scoreBoard.setPosition((SCREEN_WIDTH / 2) - 300, 15);
     
     int playerScore = 0;
     int aiScore = 0;
-    float aiBatDelay = 0.05f; // Reaction speed to make AI beatable
 
     // Time object
     sf::Clock clock;
@@ -93,7 +93,7 @@ int main(int argc, char const *argv[])
         {
             aiBat.moveDown();
         }
-        else if (ball.getPosition().top + ball.getPosition().height < aiBat.getPosition().top * aiBatDelay)
+        else if (ball.getPosition().top + ball.getPosition().height < aiBat.getPosition().top - aiBat.getPosition().height * aiBatDelay)
         {
             aiBat.moveUp();
         }
@@ -105,6 +105,7 @@ int main(int argc, char const *argv[])
         // Update time and positions
         sf::Time deltaClock = clock.restart();
         playerBat.updateTime(deltaClock);
+        aiBat.updateTime(deltaClock);
         ball.updateTime(deltaClock);
 
         if (ball.getPosition().top <= 0 || ball.getPosition().top + ball.getPosition().height > SCREEN_HEIGHT)
@@ -115,21 +116,36 @@ int main(int argc, char const *argv[])
         if (ball.getPosition().intersects(playerBat.getPosition()))
         {
             ball.reboundHorizontalSides();
+
+            // Calculate offset and adjust the ball's vertical direction
+            float offset = (ball.getPosition().top + ball.getPosition().height / 2) - 
+                           (playerBat.getPosition().top + playerBat.getPosition().height / 2);
+            ball.verticalOffset(offset);
         }
         else if (ball.getPosition().intersects(aiBat.getPosition()))
         {
             ball.reboundHorizontalSides();
+
+            float offset = (ball.getPosition().top + ball.getPosition().height / 2) - 
+                           (aiBat.getPosition().top + aiBat.getPosition().height / 2);
+            ball.verticalOffset(offset);
         }
         
-        if (ball.getPosition().left + ball.getPosition().width < goals[0].getGlobalBounds().left + goals[0].getGlobalBounds().width || 
-            ball.getPosition().left > goals[1].getGlobalBounds().left + goals[1].getLocalBounds().width)
+        if (ball.getPosition().left < 0)
         {
+            aiScore ++;
             ball.resetBall();
         }
+        else if (ball.getPosition().left > SCREEN_WIDTH)
+        {
+            playerScore ++;
+            ball.resetBall();
+        }
+        
 
         // Prompt score display
         std::stringstream ss;
-        ss << playerScore;
+        ss << playerScore << "      " << aiScore;
         scoreBoard.setString(ss.str());
 
         window.clear();
