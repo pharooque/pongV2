@@ -58,8 +58,9 @@ int main(int argc, char const *argv[])
     
     int playerScore = 0;
     int aiScore = 0;
+    float aiBatDelay = 0.05f; // Reaction speed to make AI beatable
 
-     // Time object
+    // Time object
     sf::Clock clock;
 
     // Game loop 
@@ -75,7 +76,8 @@ int main(int argc, char const *argv[])
         }
 
         // Handle player input
-        playerBat.stop();
+        playerBat.stop(); //Default stop
+
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
         {
             playerBat.moveUp();
@@ -86,7 +88,21 @@ int main(int argc, char const *argv[])
             playerBat.moveDown();
         }
 
-        // Update time and sprite movement
+        // AI paddle Logic
+        if (ball.getPosition().top + ball.getPosition().height > aiBat.getPosition().top + aiBat.getPosition().height * (1 + aiBatDelay))
+        {
+            aiBat.moveDown();
+        }
+        else if (ball.getPosition().top + ball.getPosition().height < aiBat.getPosition().top * aiBatDelay)
+        {
+            aiBat.moveUp();
+        }
+        else
+        {
+            aiBat.stop();
+        }
+
+        // Update time and positions
         sf::Time deltaClock = clock.restart();
         playerBat.updateTime(deltaClock);
         ball.updateTime(deltaClock);
