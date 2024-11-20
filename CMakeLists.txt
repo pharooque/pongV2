@@ -11,7 +11,8 @@ include_directories(include)
 
 set(SOURCES
     src/main.cpp
-    src/bat.cpp  
+    src/bat.cpp
+    src/ball.cpp 
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})
