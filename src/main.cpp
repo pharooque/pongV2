@@ -75,17 +75,16 @@ int main(int argc, char const *argv[])
         }
 
         // Handle player input
+        playerBat.stop();
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
         {
             playerBat.moveUp();
         }
-        else {playerBat.stopUp();}
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
         {
             playerBat.moveDown();
         }
-        else {playerBat.stopDown();}
 
         // Update time and sprite movement
         sf::Time deltaClock = clock.restart();
@@ -105,11 +104,6 @@ int main(int argc, char const *argv[])
         {
             ball.reboundHorizontalSides();
         }
-        
-        /*if (ball.getPosition().intersects(goals[0].getGlobalBounds()) || ball.getPosition().intersects(goals[1].getGlobalBounds()))
-        {
-            ball.resetBall();
-        }*/
         
         if (ball.getPosition().left + ball.getPosition().width < goals[0].getGlobalBounds().left + goals[0].getGlobalBounds().width || 
             ball.getPosition().left > goals[1].getGlobalBounds().left + goals[1].getLocalBounds().width)

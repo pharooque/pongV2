@@ -28,13 +28,9 @@ void Bat::moveDown()
     m_moveDown = true;
 }
 
-void Bat::stopUp()
+void Bat::stop()
 {
     m_moveUp = false;
-}
-
-void Bat::stopDown()
-{
     m_moveDown = false;
 }
 

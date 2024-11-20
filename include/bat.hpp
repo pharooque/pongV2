@@ -16,8 +16,7 @@ public:
 
     void moveUp();
     void moveDown();
-    void stopUp();
-    void stopDown();
+    void stop();
 
     void updateTime(sf::Time deltaClock);
 };
