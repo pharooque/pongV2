@@ -1,7 +1,7 @@
 #include "bat.hpp"
 
 Bat::Bat(sf::Vector2f startPosition, const sf::Texture& texture)
-    : m_moveUp(false), m_moveDown(false)
+    : m_moveUp(false), m_moveDown(false), m_Speed(1000.0f)
 {
     sprite.setTexture (texture);
     sprite.setPosition(startPosition);
@@ -38,14 +38,15 @@ void Bat::stopDown()
     m_moveDown = false;
 }
 
-void Bat::updateTime(sf::Time deltaClock, float batSpeed)
+// Time and motion update
+void Bat::updateTime(sf::Time deltaClock)
 {
     float batTop = sprite.getPosition().y;
     float batBottom = batTop + sprite.getLocalBounds().height;
     
     if (m_moveUp)
     {
-        sprite.move(0, -batSpeed * deltaClock.asSeconds());
+        sprite.move(0, -m_Speed * deltaClock.asSeconds());
 
         if (batTop < 0)
         {
@@ -56,7 +57,7 @@ void Bat::updateTime(sf::Time deltaClock, float batSpeed)
     
     if (m_moveDown)
     {
-        sprite.move(0, batSpeed * deltaClock.asSeconds());
+        sprite.move(0, m_Speed * deltaClock.asSeconds());
 
         if (batBottom > 1300)
         {

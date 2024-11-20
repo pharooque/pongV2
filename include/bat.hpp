@@ -5,6 +5,7 @@ class Bat
 {
 private:
     sf::Sprite sprite;
+    float m_Speed;
     bool m_moveUp;
     bool m_moveDown;
 public:
@@ -18,5 +19,5 @@ public:
     void stopUp();
     void stopDown();
 
-    void updateTime(sf::Time deltaClock, float batSpeed);
+    void updateTime(sf::Time deltaClock);
 };

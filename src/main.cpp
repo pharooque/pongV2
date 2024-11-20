@@ -2,7 +2,6 @@
 #include"ball.hpp"
 #include<SFML/Graphics.hpp>
 #include<sstream>   // Score board concatenation
-#include<random>    // For random numbers
 #include<array>
 
 // Screen size constants
@@ -32,9 +31,9 @@ int main(int argc, char const *argv[])
     std::array<sf::Sprite, 2> borders; for (auto& border : borders) {border.setTexture(textures[3]);}
     std::array<sf::Sprite, 2> goals; for(auto& goal : goals) {goal.setTexture(textures[4]);}
 
-    Bat playerBat(sf::Vector2f(SCREEN_WIDTH - 2100, 492), textures[2]); // Player controlled paddle
-    Bat aiBat(sf::Vector2f(SCREEN_WIDTH - 154, 492), textures[2]); // AI controlled paddle
-    Ball ball(textures[1]);
+    Bat playerBat(sf::Vector2f(SCREEN_WIDTH - 2000, 492), textures[2]); // Player controlled paddle
+    Bat aiBat(sf::Vector2f(SCREEN_WIDTH - 254, 492), textures[2]); // AI controlled paddle
+    Ball ball(textures[1]); // Ball sprite
 
     // Positioning wall, goal and borders
     wall.setPosition(1082.5, 0);
@@ -60,14 +59,7 @@ int main(int argc, char const *argv[])
     int playerScore = 0;
     int aiScore = 0;
 
-    // Setup random number generator
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<> batSpeedDist(800, 1000);
-    float batSpeed = batSpeedDist(gen);
-
-
-    // Time object
+     // Time object
     sf::Clock clock;
 
     // Game loop 
@@ -97,7 +89,7 @@ int main(int argc, char const *argv[])
 
         // Update time and sprite movement
         sf::Time deltaClock = clock.restart();
-        playerBat.updateTime(deltaClock, batSpeed);
+        playerBat.updateTime(deltaClock);
         ball.updateTime(deltaClock);
 
         if (ball.getPosition().top <= 0 || ball.getPosition().top + ball.getPosition().height > SCREEN_HEIGHT)
