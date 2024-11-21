@@ -7,7 +7,6 @@
 // Screen size constants
 const int SCREEN_HEIGHT = 1300;
 const int SCREEN_WIDTH = 2200;
-constexpr float aiBatDelay = 0.05f; // Reaction speed to make AI beatable
 
 int main(int argc, char const *argv[])
 {
@@ -59,6 +58,7 @@ int main(int argc, char const *argv[])
     
     int playerScore = 0;
     int aiScore = 0;
+    float aiBatDelay = aiBat.getAiBatDelay(); // Reaction speed to make AI beatable
 
     // Time object
     sf::Clock clock;
@@ -88,6 +88,11 @@ int main(int argc, char const *argv[])
             playerBat.moveDown();
         }
 
+        if (playerScore - aiScore >= 3)
+        {
+            aiBat.increaseDifficulty();
+        }
+        
         // AI paddle Logic
         if (ball.getPosition().top + ball.getPosition().height > aiBat.getPosition().top + aiBat.getPosition().height * (1 + aiBatDelay))
         {
@@ -141,7 +146,6 @@ int main(int argc, char const *argv[])
             playerScore ++;
             ball.resetBall();
         }
-        
 
         // Prompt score display
         std::stringstream ss;

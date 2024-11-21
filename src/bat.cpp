@@ -1,7 +1,7 @@
 #include "bat.hpp"
 
 Bat::Bat(sf::Vector2f startPosition, const sf::Texture& texture)
-    : m_moveUp(false), m_moveDown(false), m_Speed(300.0f)
+    : m_moveUp(false), m_moveDown(false), m_Speed(300.0f), aiBatDelay(0.5f)
 {
     sprite.setTexture (texture);
     sprite.setPosition(startPosition);
@@ -16,6 +16,17 @@ sf::FloatRect Bat::getPosition() const
 const sf::Sprite& Bat::getSprite() const
 {
     return sprite;
+}
+
+void Bat::increaseDifficulty()
+{
+    aiBatDelay = 0.2f; // Gradually make AI faster
+    m_Speed = 1000.0f;
+}
+
+float Bat::getAiBatDelay() const
+{
+    return aiBatDelay;
 }
 
 void Bat::moveUp()
