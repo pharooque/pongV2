@@ -21,8 +21,8 @@ This project recreates the iconic pong game in 2D using SFML for graphics render
 
 - Classic Pong gameplay
 - Player and AI-controlled bats
-- score display
-- simple and easy-to-understand codebase for beginners
+- Score display
+- Simple and easy-to-understand codebase for beginners. With assets from [DevAssets's 2D Mega Pack](https://devassets.com/assets/2d-mega-pack/)
 
 ## Getting Started
 
@@ -38,8 +38,8 @@ This project recreates the iconic pong game in 2D using SFML for graphics render
 1. Clone the repo:
 
 ```
-git clone <your-repo-url>
-cd pong-game
+git clone https://github.com/pharooque/pongV2.git
+cd pongV2
 ```
 
 2. Create a `build` directory:
@@ -66,7 +66,7 @@ cmake --build .
 After building, you can run the the game executable located in the `build` directory:
 
 ```
-./pong-game
+./pong
 ```
 
 ## Controls
